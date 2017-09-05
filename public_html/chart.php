@@ -29,11 +29,7 @@ $tableRows = $document->getElementsByTagName('tr');
 // endregion
 
 // region Находим стартовый баланс
-$domXPath = new DOMXPath($document);
-
-$xQuery = ".//*[contains(text(), 'Deposit/Withdrawal')]/../following-sibling::*[1]";
-
-$balance = floatval($domXPath->query($xQuery)->item(0)->nodeValue);
+$balance = 0;
 // endregion
 
 // region Первая точка со значеним исходного баланса
@@ -72,52 +68,51 @@ foreach ($tableRows as $tableRow) {
      */
     $cellProfit = $rowCells->item($rowCells->length - 1);
 
-    if (is_numeric($cellProfit->nodeValue)) {
-        /**
-         * @var DOMElement $cellCommission Ячейка со значением комиссии
-         */
-        $cellCommission = $rowCells->item($rowCells->length - 4);
+    $profit = str_replace(' ', '', $cellProfit->nodeValue);
 
-        /**
-         * @var DOMElement $cellTax Ячейка со значением таксы
-         */
-        $cellTax = $rowCells->item($rowCells->length - 3);
-
-        /**
-         * @var DOMElement $cellSwap Ячейка со значением свопа
-         */
-        $cellSwap = $rowCells->item($rowCells->length - 2);
+    if (is_numeric($profit)) {
+        // region Подсчёт баланса
+        $balance += floatval($profit);
 
         /**
          * @var DOMElement $cellTicketType Ячейка с типом тикета (транзакции)
          */
         $cellTicketType = $rowCells->item(2);
 
-        // region Подсчёт баланса (Баланс = Профит + Своп + Такса + Комиссия)
-        /**
-         * Как я понял, тип тикета (транзакции) 'balance' не влияет на баланс
-         * (это что-то вроде инфо-поля)
-         */
         if ($cellTicketType->nodeValue !== 'balance') {
-            $balance += floatval($cellProfit->nodeValue)
-                      + floatval($cellCommission->nodeValue)
-                      + floatval($cellTax->nodeValue)
-                      + floatval($cellSwap->nodeValue)
-            ;
+            /**
+             * @var DOMElement $cellCommission Ячейка со значением комиссии
+             */
+            $cellCommission = $rowCells->item($rowCells->length - 4);
 
             /**
-             * Как понял из исходной таблицы данные
-             * для графика сохранять именно здесь
+             * @var DOMElement $cellTax Ячейка со значением таксы
              */
-            $chartData[] = [
-                'ticket'    => intval($cellTicket->nodeValue),
-                'number'    => $ticketNumber,
-                'balance'   => $balance,
-                // По желанию можно ещё данные из таблицы парсить типа даты и т.п.
-            ];
+            $cellTax = $rowCells->item($rowCells->length - 3);
 
-            $ticketNumber++;
+            /**
+             * @var DOMElement $cellSwap Ячейка со значением свопа
+             */
+            $cellSwap = $rowCells->item($rowCells->length - 2);
+
+            $commission = str_replace(' ', '', $cellCommission->nodeValue);
+            $tax        = str_replace(' ', '', $cellTax->nodeValue);
+            $swap       = str_replace(' ', '', $cellSwap->nodeValue);
+
+            $balance += floatval($commission)
+                      + floatval($tax)
+                      + floatval($swap)
+            ;
         }
+
+        $chartData[] = [
+            'ticket'    => intval($cellTicket->nodeValue),
+            'number'    => $ticketNumber,
+            'balance'   => round($balance, 2),
+            // По желанию можно ещё данные из таблицы парсить типа даты и т.п.
+        ];
+
+        $ticketNumber++;
         // endregion
     }
 }

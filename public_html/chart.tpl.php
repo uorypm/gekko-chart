@@ -24,7 +24,7 @@
         var chart = new CanvasJS.Chart("chartContainer", {
             toolTip: {
                 shared: true,
-                content: 'Ticket #{ticket}<br/>Balance {y}'
+                content: 'Ticket #{ticket}<br/>Balance: {y}<br/>Number: {x}'
             },
             data: [
                 {
