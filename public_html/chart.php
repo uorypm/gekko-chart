@@ -33,13 +33,15 @@ $domXPath = new DOMXPath($document);
 $xQuery = ".//*[contains(text(), 'Deposit/Withdrawal')]/../following-sibling::*[1]";
 
 $balance = floatval($domXPath->query($xQuery)->item(0)->nodeValue);
+// endregion
 
+// region Первая точка на графике со значеним исходноо баланса
 $chartData[] = [
     'ticket'    => 0,
     'number'    => $ticketNumber,
     'balance'   => $balance,
 ];
-// endregion
+// region
 
 // region Генерация данных
 foreach ($tableRows as $tableRow) {
