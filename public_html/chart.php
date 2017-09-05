@@ -16,6 +16,7 @@
  */
 
 $chartData = [];
+
 $ticketNumber = 0;
 
 // region Инициализация документа
@@ -35,7 +36,7 @@ $xQuery = ".//*[contains(text(), 'Deposit/Withdrawal')]/../following-sibling::*[
 $balance = floatval($domXPath->query($xQuery)->item(0)->nodeValue);
 // endregion
 
-// region Первая точка на графике со значеним исходноо баланса
+// region Первая точка со значеним исходного баланса
 $chartData[] = [
     'ticket'    => 0,
     'number'    => $ticketNumber,
