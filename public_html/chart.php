@@ -54,11 +54,9 @@ foreach ($tableRows as $tableRow) {
 
     // region Проверяем, что в строке действительно содержится
     //        информация о тикете (транзакции), иначе пропускаем итерацию
-    if (!$cellTicket->hasAttribute('title')) {
-        continue;
-    }
+    $ticketId = strval($cellTicket->nodeValue);
 
-    if (!ctype_digit($cellTicket->nodeValue)) {
+    if (strlen($ticketId) < 8 || !ctype_digit($ticketId)) {
         continue;
     }
     // endregion
