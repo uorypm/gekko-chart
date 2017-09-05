@@ -10,8 +10,6 @@
  * @var DOMDocument $document       Исходный html-документ с данными
  * @var DOMNodeList $tableRows      Строки таблицы с данными из $document
  * @var DOMElement  $tableRow       Строка таблицы из списка $tableRows
- * @var DOMNodeList $tableCells     Ячейки таблицы в контексте строки
- * @var DOMElement  $tableCell      Ячейка таблицы из списка $tableCells
  * @var array       $chartData      Данные для графика
  * @var float       $balance        Баланс счёта
  * @var int         $ticketNumber   Номер тикета по порядку (для графика)
