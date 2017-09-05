@@ -40,6 +40,10 @@ $chartData[] = [
 ];
 // region
 
+if ($tableRows->length === 0) {
+    die('Нет данных для обработки');
+}
+
 // region Генерация данных
 foreach ($tableRows as $tableRow) {
     /**
