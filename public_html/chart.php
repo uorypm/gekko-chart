@@ -14,6 +14,7 @@
  * @var DOMElement  $tableCell      Ячейка таблицы из списка $tableCells
  * @var array       $chartData      Данные для графика
  * @var float       $balance        Баланс счёта
+ * @var int         $ticketNumber   Номер тикета по порядку (для графика)
  */
 
 // region Инициализация документа
