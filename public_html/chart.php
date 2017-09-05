@@ -15,6 +15,9 @@
  * @var int         $ticketNumber   Номер тикета по порядку (для графика)
  */
 
+$chartData = [];
+$ticketNumber = 0;
+
 // region Инициализация документа
 $document = new DOMDocument();
 $document->loadHTMLFile($_FILES['file']['tmp_name']);
@@ -23,9 +26,6 @@ $document->loadHTMLFile($_FILES['file']['tmp_name']);
 // region Парсинг строк таблицы
 $tableRows = $document->getElementsByTagName('tr');
 // endregion
-
-$chartData = [];
-$ticketNumber = 0;
 
 // region Находим стартовый баланс
 $domXPath = new DOMXPath($document);
